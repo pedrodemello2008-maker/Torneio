@@ -3,10 +3,10 @@
 // Veja o README.md para o passo a passo completo.
 
 const firebaseConfig = {
-  apiKey: "SUA_API_KEY",
-  authDomain: "SEU_PROJETO.firebaseapp.com",
-  projectId: "SEU_PROJETO",
-  storageBucket: "SEU_PROJETO.appspot.com",
-  messagingSenderId: "SEU_SENDER_ID",
-  appId: "SEU_APP_ID"
+  apiKey: "AIzaSyCDIQoUN-4fNA9p-x8u1Iqix8r-fiBsU",
+  authDomain: "torneio-robotica.firebaseapp.com",
+  projectId: "torneio-robotica",
+  storageBucket: "torneio-robotica.firebasestorage.app",
+  messagingSenderId: "523431995851",
+  appId: "1:523431995851:web:4add844a33a1b6d683ee4e"
 };
