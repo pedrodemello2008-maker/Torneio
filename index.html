@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Painel do Torneio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <!-- ===================== TELA DE LOGIN ===================== -->
+    <div id="login-screen" class="login-wrap">
+      <div class="login-card">
+        <h1>🏆 Painel do Torneio</h1>
+        <p class="small">
+          Entre com sua conta para acessar. Times comuns têm acesso de leitura;
+          administradores podem editar.
+        </p>
+
+        <div class="login-tabs">
+          <button id="tabEntrar" class="login-tab active">Entrar</button>
+          <button id="tabCadastrar" class="login-tab">Criar conta</button>
+        </div>
+
+        <form id="formEntrar" class="login-form">
+          <label>E-mail</label>
+          <input
+            type="email"
+            id="loginEmail"
+            required
+            autocomplete="username"
+          />
+          <label>Senha</label>
+          <input
+            type="password"
+            id="loginSenha"
+            required
+            autocomplete="current-password"
+          />
+          <button type="submit" class="primary full">Entrar</button>
+          <p class="error" id="loginErro"></p>
+        </form>
+
+        <form id="formCadastrar" class="login-form" style="display: none">
+          <label>Nome</label>
+          <input type="text" id="cadNome" required />
+          <label>E-mail</label>
+          <input type="email" id="cadEmail" required autocomplete="username" />
+          <label>Senha (mínimo 6 caracteres)</label>
+          <input
+            type="password"
+            id="cadSenha"
+            required
+            minlength="6"
+            autocomplete="new-password"
+          />
+          <button type="submit" class="primary full">Criar conta</button>
+          <p class="small">
+            Novas contas entram como usuário comum (somente leitura). Um
+            administrador precisa promover sua conta — veja o README.
+          </p>
+          <p class="error" id="cadErro"></p>
+        </form>
+      </div>
+    </div>
+
+    <!-- ===================== APP ===================== -->
+    <div id="app-screen" style="display: none">
+      <header class="top">
+        <h1>🏆 Painel do Torneio</h1>
+        <p>Organize regras, times, fase de grupos e mata-mata em um só lugar</p>
+      </header>
+
+      <div class="userbar">
+        <span id="userInfo" class="small"></span>
+        <button class="ghost" id="btnLogout">Sair</button>
+      </div>
+
+      <nav class="tabs">
+        <button data-tab="regras" class="active">Regras</button>
+        <button data-tab="times">Times</button>
+        <button data-tab="grupos">Fase de Grupos</button>
+        <button data-tab="mata">Mata-mata</button>
+      </nav>
+
+      <main>
+        <section id="regras" class="active">
+          <h2>Regras do torneio</h2>
+          <div class="card">
+            <textarea
+              id="regrasText"
+              placeholder="Escreva aqui as regras do torneio..."
+            ></textarea>
+            <div class="row admin-only" style="margin-top: 10px">
+              <button class="primary" id="salvarRegras">Salvar regras</button>
+              <span class="small" id="regrasStatus"></span>
+            </div>
+          </div>
+        </section>
+
+        <section id="times">
+          <h2>Cadastro de times</h2>
+          <div class="card admin-only">
+            <div class="row">
+              <div style="flex: 2; min-width: 160px">
+                <label>Nome do time</label>
+                <input id="nomeTime" placeholder="Ex: Leões FC" />
+              </div>
+              <div style="flex: 1; min-width: 100px">
+                <label>Grupo</label>
+                <input id="grupoTime" placeholder="Ex: A" maxlength="2" />
+              </div>
+              <button class="primary" id="addTime">Adicionar</button>
+            </div>
+          </div>
+          <div id="listaTimes" class="card stack"></div>
+        </section>
+
+        <section id="grupos">
+          <h2>Fase de grupos</h2>
+          <div class="card row admin-only">
+            <button class="primary" id="gerarGrupos">
+              Gerar jogos da fase de grupos
+            </button>
+            <span class="small"
+              >Gera automaticamente todos contra todos dentro de cada grupo.
+              Pode gerar de novo a qualquer momento (mantém os placares já
+              preenchidos).</span
+            >
+          </div>
+          <div id="grupoConteudo"></div>
+        </section>
+
+        <section id="mata">
+          <h2>Mata-mata</h2>
+          <div class="card row admin-only">
+            <div style="max-width: 180px">
+              <label>Classificados por grupo</label>
+              <input
+                type="number"
+                id="vagasPorGrupo"
+                min="1"
+                max="4"
+                value="2"
+              />
+            </div>
+            <button class="primary" id="gerarMata">
+              Atualizar chaveamento com a classificação atual
+            </button>
+            <span class="small"
+              >O chaveamento é montado automaticamente com os classificados da
+              fase de grupos. Use este botão para recalcular (reinicia os
+              placares do mata-mata).</span
+            >
+          </div>
+          <div id="mataConteudo" class="overflow-x"></div>
+        </section>
+      </main>
+    </div>
+
+    <!-- Firebase (compat SDK, sem necessidade de bundler) -->
+    <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+
+    <script src="js/firebase-config.js"></script>
+    <script src="js/firebase-init.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>
