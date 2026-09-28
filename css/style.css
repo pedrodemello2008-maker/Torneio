@@ -4,7 +4,7 @@
   --ink: #15202b;
   --ink-soft: #4b5a66;
   --line: #dadcd6;
---field: #000080 ;
+  --field: #000080 ;
   --field-2: #00bfff;
   --gold: #c89b3c;
   --danger: #b3402a;
@@ -411,4 +411,56 @@ th:first-child {
 /* Elementos visíveis só para administradores */
 body:not(.admin) .admin-only {
   display: none !important;
+}
+
+/* ---------- LOGOS (equipe + escola) ---------- */
+.logos {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.logos img {
+  object-fit: contain;
+  background: #fff;
+  border-radius: 50%;
+  padding: 2px;
+}
+
+/* Tela de login: um pouco maiores, centralizadas acima do título */
+.logos-login {
+  justify-content: center;
+  margin-bottom: 14px;
+}
+.logos-login img {
+  width: 76px;
+  height: 76px;
+  border: 1px solid var(--line);
+}
+
+/* Cabeçalho do app: pequenas, no canto superior direito */
+header.top {
+  position: relative;
+  padding-right: 110px;
+}
+.logos-header {
+  position: absolute;
+  top: calc(14px + env(safe-area-inset-top, 0px));
+  right: 16px;
+}
+.logos-header img {
+  width: 42px;
+  height: 42px;
+}
+@media (max-width: 420px) {
+  header.top {
+    padding-right: 96px;
+  }
+  .logos-header {
+    right: 12px;
+    gap: 6px;
+  }
+  .logos-header img {
+    width: 36px;
+    height: 36px;
+  }
 }
