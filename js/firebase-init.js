@@ -1,6 +1,9 @@
-// Inicializa o app do Firebase usando a configuração de firebase-config.js
-firebase.initializeApp(firebaseConfig);
-
-// Instâncias usadas em todo o app (auth.js e app.js)
-const auth = firebase.auth();
-const db = firebase.firestore();
+let auth, db;
+try {
+  firebase.initializeApp(firebaseConfig);
+  auth = firebase.auth();
+  db = firebase.firestore();
+} catch (e) {
+  console.error("Falha ao iniciar o Firebase:", e);
+  alert("Falha ao iniciar o Firebase: " + e.message);
+}
